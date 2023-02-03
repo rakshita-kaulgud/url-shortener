@@ -4,16 +4,18 @@ import hashlib
 app = Flask(__name__)
 
 map = {}
-    
 
 @app.route('/shortenUrl', methods=['GET', 'POST'])
 def shortenUrl():
     if request.method == 'POST':
+        # To-do : validate request
+        # validate url is correct
         url = request.form['url']
         # generate hash of the URL
-        hashed_url = hashlib.sha224(url.encode('utf-8')).hexdigest()[:8]
+        hashed_url = hashlib.sha256(url.encode('utf-8')).hexdigest()[:8]
         map[hashed_url] = url
-        print(map)
+        
+        
         return f"Shortened URL: http://url-shortener.com/{hashed_url}"
 
     return render_template('index.html')
